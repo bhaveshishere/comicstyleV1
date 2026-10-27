@@ -3,321 +3,320 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>OMNIDEX — Comic-Book Interactive Experience</title>
-<meta name="description" content="Omnidex: a comic-book interactive site. Slap the dial, transform into five original alien forms, build your own panel, and play with sound effects. Built in pure HTML, CSS and JS.">
-<meta name="theme-color" content="#9CFF3D">
-<meta property="og:type" content="website">
-<meta property="og:title" content="OMNIDEX — Comic-Book Interactive Experience">
-<meta property="og:description" content="Slap the dial. Read the pages. Build your own panel. A comic-book website with transformations, halftone wipes and speed lines.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%230A0A0E'/%3E%3Ccircle cx='16' cy='16' r='10' fill='%239CFF3D'/%3E%3Cpath d='M16 8l2.4 5.6L24 16l-5.6 2.4L16 24l-2.4-5.6L8 16l5.6-2.4z' fill='%230A0A0E'/%3E%3C/svg%3E">
+<title>OMNIVERSE — Alien Archive</title>
+<meta name="description" content="An original comic-book universe: five alien forms, a 3D alien watch, hologram transformations, panel-by-panel issues and a villain battle arena. Pure HTML, CSS and JS.">
+<meta name="theme-color" content="#7DFF2F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%2308090C'/%3E%3Ccircle cx='16' cy='16' r='10.5' fill='%237DFF2F'/%3E%3Cpath d='M14 8h4c1 3-1 5-1 8s2 5 1 8h-4c-1-3 1-5 1-8s-2-5-1-8z' fill='%230A1A02'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="src/app.css">
 </head>
 <body>
-<a class="skip" href="#main">Skip to the action</a>
-<div class="halftone" aria-hidden="true"></div>
+<a class="skip" href="#main">Skip to the archive</a>
+<div class="dots" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
-<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="prog" id="prog" aria-hidden="true"></div>
 
-<!-- ================= HUD ================= -->
 <header class="hud">
-  <a class="hud__brand" href="#top" aria-label="Omnidex home">
-    <span class="hud__logo" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M12 3l2.9 6.1L21 12l-6.1 2.9L12 21l-2.9-6.1L3 12l6.1-2.9z" fill="#9CFF3D"/></svg>
+  <a class="hud__brand" href="#top" aria-label="Omniverse home">
+    <span class="hud__mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="26" height="26">
+        <circle cx="16" cy="16" r="15" fill="#0C1108" stroke="#7DFF2F" stroke-width="1.6"/>
+        <circle cx="16" cy="16" r="10" fill="#7DFF2F"/>
+        <path d="M14.3 7.6h3.4c.9 2.6-.9 4.4-.9 8.4s1.8 5.8.9 8.4h-3.4c-.9-2.6.9-4.4.9-8.4s-1.8-5.8-.9-8.4z" fill="#0C1108"/>
+      </svg>
     </span>
-    OMNIDEX <b>/</b>
+    OMNIVERSE <b>/</b>
   </a>
-  <nav class="hud__mid" aria-label="Sections">
-    <a href="#dex">Dex</a>
-    <a href="#pages">Pages</a>
+  <nav class="hud__nav" aria-label="Sections">
+    <a href="#dex">Archive</a>
+    <a href="#pages">Issue 001</a>
+    <a href="#arena">Battle</a>
     <a href="#sfx">SFX</a>
-    <a href="#build">Build</a>
-    <a href="#origin">Origin</a>
+    <a href="#build">Forge</a>
   </nav>
   <div class="hud__tools">
-    <button class="iconbtn" id="soundBtn" aria-pressed="true" title="Toggle sound effects" aria-label="Toggle sound effects">♪</button>
-    <button class="iconbtn" id="chaosBtn" title="CHAOS MODE" aria-label="Enter chaos mode">✦</button>
+    <button class="iconbtn" id="soundBtn" aria-pressed="true" title="Sound on/off" aria-label="Toggle sound">♪</button>
+    <button class="iconbtn" id="chaosBtn" aria-pressed="false" title="Chaos mode" aria-label="Chaos mode">✦</button>
   </div>
 </header>
 
 <main id="main">
 <!-- ================= HERO ================= -->
 <section class="hero" id="top">
-  <div class="hero__bg" aria-hidden="true"><img src="assets/hero-teen.jpg" alt="" id="heroBg" fetchpriority="high"></div>
-  <div class="hero__lines" aria-hidden="true"></div>
+  <div class="hero__art" aria-hidden="true"><img id="heroArt" src="assets/hero.jpg" alt="" fetchpriority="high"></div>
+  <div class="hero__rays" aria-hidden="true"></div>
 
   <div class="hero__in">
     <div>
-      <p class="issue">Issue #001 · The Dial Awakens</p>
-      <h1 class="title" id="heroTitle">
-        <span class="t-word">OMNI</span><em class="t-word">DEX</em>
+      <p class="tagline">Season 01 · The Watch That Shouldn't Exist</p>
+      <h1 class="title" id="title">
+        <span class="ln">OMNI</span><em class="ln">VERSE</em>
       </h1>
-      <p class="hero__sub">A comic book that <i>fights back</i>. Five alien forms. One dial. Everything moves.</p>
+      <p class="hero__sub">Five original alien forms. One recalcitrant watch. <u>Slap it</u> and find out which one you get.</p>
       <div class="hero__cta">
-        <button class="btn" id="transformBtn" aria-describedby="dialHint">
-          Slap the dial
-          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l7 6-7 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <a class="btn btn--ghost" href="#pages">Read the pages</a>
+        <button class="btn" id="transformBtn">Slap the watch <span aria-hidden="true">▸</span></button>
+        <a class="btn btn--ghost" href="#arena">Enter battle</a>
       </div>
     </div>
 
-    <div class="dialwrap">
-      <button class="dial" id="dial" aria-label="Transform: activate the Omnitrix-style dial">
-        <span class="dial__ring" aria-hidden="true"></span>
-        <span class="dial__face" aria-hidden="true">
-          <svg class="dial__glass" viewBox="0 0 100 100" aria-hidden="true">
-            <path d="M22 14c14 0 18 10 18 20 0 8-5 12-5 16s5 8 5 16c0 10-4 20-18 20z"/>
-            <path d="M78 14c-14 0-18 10-18 20 0 8 5 12 5 16s-5 8-5 16c0 10 4 20 18 20z"/>
-          </svg>
+    <!-- CSS-3D WATCH -->
+    <div class="watchwrap">
+      <button class="watch watch__btn" id="watch" aria-label="Slap the watch to transform">
+        <span class="watch__glowring" aria-hidden="true"></span>
+        <span class="watch__strap watch__strap--t" aria-hidden="true"></span>
+        <span class="watch__strap watch__strap--b" aria-hidden="true"></span>
+        <span class="watch__body" aria-hidden="true">
+          <span class="watch__bezel"></span>
+          <span class="watch__dial"></span>
+          <span class="watch__glass"></span>
+          <span class="watch__hourglass" aria-hidden="true">
+            <svg viewBox="0 0 100 100"><path d="M26 8h48v9c0 18-14 24-14 33s14 15 14 33v9H26v-9c0-18 14-24 14-33S26 35 26 17z"/></svg>
+          </span>
+          <span class="watch__charge" aria-hidden="true"></span>
         </span>
-        <span class="dial__label">SLAP TO TRANSFORM</span>
-        <span class="dial__hint" id="dialHint">Click · or press T</span>
+        <span class="watch__hint">Tap · or press <b>T</b></span>
       </button>
     </div>
   </div>
 
-  <div class="sticker sticker--a" aria-hidden="true">5 alien forms</div>
-  <div class="sticker sticker--b" aria-hidden="true">No frameworks</div>
-  <div class="sticker sticker--c" aria-hidden="true">Pure HTML · CSS · JS</div>
-  <div class="scrollcue" aria-hidden="true"><b></b>Scroll</div>
+  <div class="sticker st-a" aria-hidden="true">5 original forms</div>
+  <div class="sticker st-b" aria-hidden="true">No frameworks</div>
+  <div class="sticker st-c" aria-hidden="true">Hologram warp</div>
+  <div class="cue" aria-hidden="true"><b></b>Scroll</div>
 </section>
 
 <!-- ================= DEX ================= -->
 <section class="paper" id="dex">
-  <div class="sec-head">
+  <div class="sechead">
     <div>
-      <p class="kicker">01 — The Omnidex</p>
+      <p class="kick">01 — Alien archive</p>
       <h2 class="h">Pick a <em>form</em></h2>
-      <p class="lede">Every alien is a real transformation on this page — the whole site re-colours itself, the page wipes, and the dial hums. Click a specimen to load its dossier, then hit <b>GO</b>.</p>
+      <p class="lede">Every specimen is a live transformation: the watch charges, a hologram scans you, the grid snaps to that alien's colour, and the whole archive re-inks itself. Click a hex to load the file, then hit <b>TRANSFORM</b>.</p>
     </div>
-    <div class="opts" role="group" aria-label="Filter specimens">
-      <button class="opt is-on" data-filter="all">All 5</button>
+    <div class="opts" role="group" aria-label="Filter by combat role">
+      <button class="opt on" data-filter="all">All 5</button>
       <button class="opt" data-filter="power">Power</button>
       <button class="opt" data-filter="speed">Speed</button>
       <button class="opt" data-filter="stealth">Stealth</button>
     </div>
   </div>
 
-  <div class="alienlab">
+  <div class="dexgrid">
     <div class="wheel" id="wheel">
       <div class="wheel__core" aria-hidden="true">
-        <svg viewBox="0 0 100 100"><path d="M50 12l9 20 20 9-20 9-9 20-9-20-20-9 20-9z" fill="#9CFF3D" opacity=".9"/><circle cx="50" cy="50" r="42" fill="none" stroke="#9CFF3D" stroke-width="1.5" stroke-dasharray="4 6" opacity=".5"/></svg>
+        <svg viewBox="0 0 100 100"><path d="M44 14h12c1.6 8-3 13-3 26s4.6 18 3 26H44c-1.6-8 3-13 3-26s-4.6-18-3-26z" fill="#7DFF2F"/></svg>
       </div>
-      <!-- chips injected by JS -->
+      <!-- chips injected -->
     </div>
 
     <article class="dossier" id="dossier" aria-live="polite">
-      <div class="dossier__top"><span>Specimen file</span><span id="dexCounter">01 / 05</span></div>
+      <div class="dossier__bar"><span>Specimen file</span><span><b id="dexCount">01 / 05</b></span></div>
       <div class="dossier__fig">
-        <img id="dexImg" src="assets/alien-cinder.jpg" alt="Cinder — magma alien form">
+        <img id="dexImg" src="assets/alien-cinder.jpg" alt="Cinder, the magma golem">
         <span class="dossier__no" id="dexNo">№ 001</span>
-        <span class="focus" aria-hidden="true"></span>
       </div>
       <div class="dossier__body">
         <h3 class="dossier__name" id="dexName">Cinder</h3>
-        <p class="dossier__role" id="dexRole">Magma bruiser · Pyrokinesis</p>
+        <p class="dossier__role" id="dexRole">Magma golem · Pyrokinetic</p>
         <p class="dossier__text" id="dexText"></p>
         <div class="stats" id="dexStats"></div>
-        <div class="powers" id="dexPowers"></div>
+        <div class="pows" id="dexPows"></div>
         <div class="dossier__foot">
-          <button class="btn btn--red" id="goBtn">GO <span aria-hidden="true">▸</span></button>
-          <span class="timer" id="dexTimer" title="Transformation window">10:00</span>
-          <span class="sfx-note" style="margin:0">dial time</span>
+          <button class="btn btn--red btn--sm" id="goBtn">Transform ▸</button>
+          <button class="btn btn--ghost btn--sm" id="sendBtn">Send to battle</button>
         </div>
       </div>
     </article>
   </div>
 </section>
 
-<!-- ================= COMIC PAGES ================= -->
-<section class="page" id="pages">
-  <div class="sec-head" style="color:var(--paper);max-width:1320px;margin:0 auto clamp(20px,3vw,38px)">
+<!-- ================= PAGES ================= -->
+<section class="dark" id="pages" style="padding:clamp(40px,6vw,80px) var(--pad)">
+  <div class="sechead">
     <div>
-      <p class="kicker">02 — The panels</p>
-      <h2 class="h" style="color:var(--paper)">Issue <em>001</em></h2>
-      <p class="lede" style="color:rgba(242,234,218,.75)">Hover a panel for the punch-in. Click to open the reader — arrow keys flip through the issue.</p>
+      <p class="kick">02 — Issue 001</p>
+      <h2 class="h">The watch that <em>shouldn't exist</em></h2>
+      <p class="lede">Panel-by-panel. Hover to punch in, click to open the reader, arrow keys to flip.</p>
     </div>
-    <button class="btn btn--ghost" id="openReader">Open reader</button>
+    <button class="btn btn--ghost btn--sm" id="readBtn">Open reader</button>
   </div>
+  <div class="pagegrid" id="pagegrid"></div>
+</section>
 
-  <div class="page__grid" id="pageGrid">
-    <!-- panels injected by JS -->
+<!-- ================= ARENA ================= -->
+<section class="arena" id="arena">
+  <div class="arena__rays" aria-hidden="true"></div>
+  <div class="arena__in">
+    <div class="sechead" style="max-width:none">
+      <div>
+        <p class="kick" style="color:var(--accent)">03 — Battle arena</p>
+        <h2 class="h">Kronik <em>must fall</em></h2>
+        <p class="lede">Turn-based brawl against <b>Kronik</b>, a chronomancer who freezes time when he's losing. Pick your form, pick your moves. He cheats.</p>
+      </div>
+      <button class="btn btn--ghost btn--sm" id="resetBattle">Restart fight</button>
+    </div>
+
+    <div class="vs">
+      <div class="fighter hero-side" id="fHero">
+        <div class="fighter__hp"><i id="hpHero"></i></div>
+        <img id="heroFighterImg" src="assets/alien-cinder.jpg" alt="Your alien form">
+        <div class="fighter__tag"><span id="heroName">Cinder</span><small id="heroRole">Magma golem</small></div>
+      </div>
+
+      <div class="vs__mid">
+        <div class="vs__badge">VS</div>
+        <div class="combobar" id="moves"></div>
+      </div>
+
+      <div class="fighter villain-side" id="fVill">
+        <div class="fighter__hp"><i id="hpVill"></i></div>
+        <img src="assets/villain-kronik.jpg" alt="Kronik, the chronomancer">
+        <div class="fighter__tag">Kronik<small>Chronomancer · cheats</small></div>
+      </div>
+    </div>
+
+    <div class="log" id="battleLog" role="log" aria-live="polite"></div>
+    <div class="combo" id="combo"></div>
   </div>
 </section>
 
-<!-- ================= SFX LAB ================= -->
-<section class="paper paper--dark" id="sfx">
-  <div class="sec-head">
+<!-- ================= SFX ================= -->
+<section class="dark" id="sfx" style="padding:clamp(40px,6vw,80px) var(--pad)">
+  <div class="sechead">
     <div>
-      <p class="kicker">03 — Sound effects</p>
-      <h2 class="h" style="color:var(--paper)">Hit the <em>SFX</em></h2>
-      <p class="lede" style="color:rgba(242,234,218,.7)">Everything here is synthesised live with the Web Audio API — no audio files. Tap in any order. Yes, it's very loud.</p>
+      <p class="kick">04 — Sound lab</p>
+      <h2 class="h">Every <em>noise</em></h2>
+      <p class="lede">Rebuilt from scratch with layered oscillators and filtered noise — the watch chirp, the dial crank, the armour clank, the impact. No audio files anywhere in this repo.</p>
     </div>
   </div>
-  <div class="sfxgrid" id="sfxGrid">
-    <button class="sfxbtn" data-sfx="punch"><span class="burst" aria-hidden="true"></span><span>THWAK!</span></button>
-    <button class="sfxbtn" data-sfx="zap"><span class="burst" aria-hidden="true"></span><span>BZZT!</span></button>
-    <button class="sfxbtn" data-sfx="whoosh"><span class="burst" aria-hidden="true"></span><span>FWOOOSH</span></button>
-    <button class="sfxbtn" data-sfx="warp"><span class="burst" aria-hidden="true"></span><span>VRRRRM</span></button>
-    <button class="sfxbtn" data-sfx="click"><span class="burst" aria-hidden="true"></span><span>KLIK!</span></button>
-    <button class="sfxbtn" data-sfx="charge"><span class="burst" aria-hidden="true"></span><span>SHHHKK</span></button>
+  <div class="sfxgrid" id="sfxgrid">
+    <button class="sfxbtn" data-sfx="chirp"><span class="wv" aria-hidden="true"></span><span>CHIRP</span></button>
+    <button class="sfxbtn" data-sfx="crank"><span class="wv" aria-hidden="true"></span><span>CRANK</span></button>
+    <button class="sfxbtn" data-sfx="warp"><span class="wv" aria-hidden="true"></span><span>WARP</span></button>
+    <button class="sfxbtn" data-sfx="charge"><span class="wv" aria-hidden="true"></span><span>CHARGE</span></button>
+    <button class="sfxbtn" data-sfx="impact"><span class="wv" aria-hidden="true"></span><span>IMPACT</span></button>
+    <button class="sfxbtn" data-sfx="clank"><span class="wv" aria-hidden="true"></span><span>CLANK</span></button>
+    <button class="sfxbtn" data-sfx="glitch"><span class="wv" aria-hidden="true"></span><span>GLITCH</span></button>
+    <button class="sfxbtn" data-sfx="timefreeze"><span class="wv" aria-hidden="true"></span><span>TIME STOP</span></button>
   </div>
-  <p class="sfx-note">Tip: the whole site already uses these — UI clicks, the transformation, the panel flips. Turn sound off any time with the ♪ button, top right.</p>
+  <p class="sfxnote">Sound unlocks on your first click (browser policy). The ♪ button in the HUD mutes it everywhere.</p>
 </section>
 
-<!-- ================= PANEL BUILDER ================= -->
-<section class="paper paper--accent" id="build">
-  <div class="sec-head">
+<!-- ================= BUILDER ================= -->
+<section class="paper accentbg" id="build">
+  <div class="sechead">
     <div>
-      <p class="kicker">04 — Panel builder</p>
-      <h2 class="h">Make your own <em>panel</em></h2>
-      <p class="lede">Write a line, pick a form, choose a colour and a sound effect. It renders straight onto a comic panel in your browser — then download the PNG.</p>
+      <p class="kick">05 — Panel forge</p>
+      <h2 class="h">Forge your own <em>panel</em></h2>
+      <p class="lede">Caption, specimen, ink, SFX. It draws live on a real canvas and exports a clean 1000×700 PNG.</p>
     </div>
   </div>
 
   <div class="builder">
     <form class="bform" id="bform" autocomplete="off">
       <div class="field">
-        <label for="capText">Caption / speech</label>
-        <input type="text" id="capText" maxlength="76" value="I've never seen anything like this city." placeholder="Say something dramatic…">
+        <label for="capText">Caption</label>
+        <input type="text" id="capText" maxlength="72" value="Time's up, Kronik.">
       </div>
       <div class="field">
         <label>Specimen</label>
         <div class="opts" id="specOpts">
-          <button type="button" class="opt is-on" data-spec="alien-titan">Titan</button>
-          <button type="button" class="opt" data-spec="alien-cinder">Cinder</button>
+          <button type="button" class="opt on" data-spec="alien-cinder">Cinder</button>
           <button type="button" class="opt" data-spec="alien-volt">Volt</button>
           <button type="button" class="opt" data-spec="alien-tide">Tide</button>
           <button type="button" class="opt" data-spec="alien-quill">Quill</button>
           <button type="button" class="opt" data-spec="alien-null">Null</button>
+          <button type="button" class="opt" data-spec="villain-kronik">Kronik</button>
         </div>
       </div>
       <div class="field">
-        <label>Speech effect</label>
-        <div class="opts" id="sfxOpts">
-          <button type="button" class="opt is-on" data-fx="THOOM!">THOOM!</button>
+        <label>SFX</label>
+        <div class="opts" id="fxOpts">
+          <button type="button" class="opt on" data-fx="THOOM!">THOOM!</button>
           <button type="button" class="opt" data-fx="KRAKK!">KRAKK!</button>
           <button type="button" class="opt" data-fx="ZWMM!">ZWMM!</button>
-          <button type="button" class="opt" data-fx="SHHHK!">SHHHK!</button>
+          <button type="button" class="opt" data-fx="KRSSH!">KRSSH!</button>
           <button type="button" class="opt" data-fx="none">none</button>
         </div>
       </div>
       <div class="field">
         <label>Ink</label>
-        <div class="swatches" id="inkOpts">
-          <button type="button" class="sw is-on" data-ink="#FFD400" style="background:#FFD400" aria-label="Yellow"></button>
-          <button type="button" class="sw" data-ink="#9CFF3D" style="background:#9CFF3D" aria-label="Green"></button>
+        <div class="sws" id="inkOpts">
+          <button type="button" class="sw on" data-ink="#FFD400" style="background:#FFD400" aria-label="Yellow"></button>
+          <button type="button" class="sw" data-ink="#7DFF2F" style="background:#7DFF2F" aria-label="Green"></button>
           <button type="button" class="sw" data-ink="#FF3B2F" style="background:#FF3B2F" aria-label="Red"></button>
           <button type="button" class="sw" data-ink="#2BE3FF" style="background:#2BE3FF" aria-label="Cyan"></button>
-          <button type="button" class="sw" data-ink="#F2EADA" style="background:#F2EADA" aria-label="Paper"></button>
           <button type="button" class="sw" data-ink="#C77DFF" style="background:#C77DFF" aria-label="Violet"></button>
+          <button type="button" class="sw" data-ink="#EFE7D6" style="background:#EFE7D6" aria-label="Paper"></button>
         </div>
       </div>
-      <div class="opts" style="margin-top:4px">
-        <button type="button" class="btn" id="shakePanel" style="font-size:16px;padding:9px 16px">Reroll angle</button>
-        <button type="button" class="btn btn--ghost" id="downloadPanel" style="font-size:16px;padding:9px 16px">Download PNG</button>
+      <div class="opts" style="margin-top:2px">
+        <button type="button" class="btn btn--sm" id="rerollBtn">Reroll angle</button>
+        <button type="button" class="btn btn--ghost btn--sm" id="dlBtn">Download PNG</button>
       </div>
     </form>
 
-    <div class="canvasWrap">
-      <canvas id="panelCanvas" width="1000" height="700" aria-label="Your generated comic panel"></canvas>
-      <div class="canvasWrap__tag"><span>Live preview</span><span id="canvasMeta">1000 × 700 px</span></div>
+    <div class="cwrap">
+      <canvas id="cv" width="1000" height="700" aria-label="Generated comic panel preview"></canvas>
+      <div class="cwrap__tag"><span>Live preview</span><span>1000 × 700</span></div>
     </div>
-  </div>
-</section>
-
-<!-- ================= ORIGIN ================= -->
-<section class="paper paper--dark" id="origin">
-  <div class="sec-head">
-    <div>
-      <p class="kicker">05 — Origin</p>
-      <h2 class="h" style="color:var(--paper)">Three pages <em>in</em></h2>
-      <p class="lede" style="color:rgba(242,234,218,.7)">A very serious origin story, told in three panels. Hover for the punch-in.</p>
-    </div>
-  </div>
-  <div class="origin">
-    <figure class="opanel" style="margin:0">
-      <img src="assets/panel-watch.jpg" alt="Close-up of the wrist dial glowing green">
-      <figcaption class="opanel__cap"><b>Page 01 · The watch</b>Found in a crash crater behind the school. It was already warm.</figcaption>
-    </figure>
-    <figure class="opanel" style="margin:0">
-      <img src="assets/alien-titan.jpg" alt="Titan, a huge stone alien, standing over a street">
-      <figcaption class="opanel__cap"><b>Page 02 · The first change</b>Turns out the dial doesn't ask permission. It just takes ten minutes.</figcaption>
-    </figure>
-    <figure class="opanel" style="margin:0">
-      <img src="assets/panel-city.jpg" alt="A city street split by green energy">
-      <figcaption class="opanel__cap"><b>Page 03 · The city</b>By the time the dust settled, everyone wanted to know who the green flash was.</figcaption>
-    </figure>
   </div>
 </section>
 
 <!-- ================= CTA ================= -->
 <section class="cta" id="cta">
-  <div class="speedbg" aria-hidden="true"></div>
+  <div class="cta__rays" aria-hidden="true"></div>
   <div class="cta__in">
     <h2>To be continued</h2>
-    <p>Get the next issue: new forms, new panels, new sound effects. No spam, just ink.</p>
-    <form class="subscribe" id="subForm">
-      <label class="sr" for="subEmail">Email address</label>
+    <p>Issue 002: a second watch, a worse villain, and a form nobody has catalogued yet.</p>
+    <form class="sub" id="subForm">
+      <label class="sr" for="subEmail">Email</label>
       <input type="email" id="subEmail" placeholder="you@earth.planet" required>
-      <button type="submit">Subscribe</button>
+      <button type="submit">Join</button>
     </form>
-    <p class="cta__note" id="subNote">Demo form — connect your provider before launch</p>
+    <p class="cta__note" id="subNote">Demo form — wire it to your provider before launch</p>
   </div>
 </section>
 </main>
 
 <footer class="foot">
   <div class="foot__top">
-    <p class="foot__logo">OMNI<span>DEX</span></p>
+    <p class="foot__logo">OMNI<span>VERSE</span></p>
     <div class="foot__cols">
-      <div><h4>Read</h4><a href="#dex">The Omnidex</a><a href="#pages">Issue 001</a><a href="#origin">Origin</a></div>
-      <div><h4>Play</h4><a href="#sfx">SFX lab</a><a href="#build">Panel builder</a><a href="#top">Slap the dial</a></div>
+      <div><h4>Archive</h4><a href="#dex">The five</a><a href="#pages">Issue 001</a><a href="#arena">Kronik</a></div>
+      <div><h4>Play</h4><a href="#arena">Battle arena</a><a href="#sfx">Sound lab</a><a href="#build">Panel forge</a></div>
       <div><h4>Elsewhere</h4><a href="https://github.com" target="_blank" rel="noopener">GitHub ↗</a><a href="https://www.instagram.com" target="_blank" rel="noopener">Instagram ↗</a></div>
     </div>
   </div>
   <div class="foot__bot">
-    <span>© 2026 Omnidex — original characters, original art</span>
-    <span>No frameworks · No trackers · 100% ink</span>
+    <span>© 2026 Omniverse — original characters, original art</span>
+    <span>No frameworks · no trackers · no audio files</span>
     <span id="clock">—</span>
   </div>
 </footer>
 
-<!-- ================= TRANSFORMATION OVERLAY ================= -->
+<!-- ================= WARP OVERLAY ================= -->
 <div class="warp" id="warp" role="status" aria-live="polite" aria-label="Transformation sequence">
-  <div class="warp__dim" id="warpDim"></div>
-  <div class="warp__lines" id="warpLines"></div>
-  <div class="warp__lines two" id="warpLines2"></div>
-  <div class="warp__morph" id="warpMorph"><img id="warpImg" src="" alt=""></div>
-  <div class="warp__ring" id="warpRing"></div>
-  <div class="warp__ring" id="warpRing2"></div>
-  <div class="warp__word" id="warpWord">CINDER</div>
-  <div class="warp__scan" aria-hidden="true"></div>
-  <div class="warp__glitch" id="warpGlitch"></div>
-  <div class="warp__flash" id="warpFlash"></div>
-  <div class="warp__black" id="warpBlack"></div>
-  <button class="warp__skip" id="warpSkip">Skip ▸▸</button>
+  <div class="warp__sky" id="wSky"></div>
+  <div class="warp__grid" id="wGrid"></div>
+  <div class="warp__rays" id="wRays"></div>
+  <div class="warp__hud" id="wHud">SCANNING DNA · HOLD STILL</div>
+  <div class="warp__scan" id="wScan"></div>
+  <div class="warp__silhouette" id="wSil"></div>
+  <div class="warp__real" id="wReal"><img id="wImg" src="" alt=""></div>
+  <div class="warp__slices" id="wSlices"></div>
+  <div class="warp__name" id="wName">CINDER</div>
+  <div class="warp__sub" id="wSub">TRANSFORMATION COMPLETE</div>
+  <div class="warp__bar" id="wBar"><i><u id="wBarFill"></u></i></div>
+  <div class="warp__glitch" id="wGlitch"></div>
+  <div class="warp__flash" id="wFlash"></div>
+  <div class="warp__black" id="wBlack"></div>
+  <button class="warp__skip" id="wSkip">Skip ▸▸</button>
 </div>
 
 <!-- ================= READER ================= -->
-<div class="reader" id="reader" role="dialog" aria-modal="true" aria-label="Comic reader">
-  <div class="reader__scrim" data-rclose></div>
-  <div class="reader__box">
-    <div class="reader__bar">
-      <span>Issue 001 · <b id="readerCount">Panel 1 of 6</b></span>
-      <div class="reader__nav">
-        <button id="readerPrev" aria-label="Previous panel">◂</button>
-        <button id="readerNext" aria-label="Next panel">▸</button>
-        <button data-rclose aria-label="Close reader">✕</button>
-      </div>
-    </div>
-    <div class="reader__fig"><img id="readerImg" src="" alt=""></div>
-    <div class="reader__cap" id="readerCap"></div>
-  </div>
-</div>
+<div class="warp" id="reader" role="dialog" aria-modal="true" aria-label="Comic reader" style="background:rgba(3,4,7,.96)"></div>
 
 <div class="toast" id="toast" role="status"></div>
-
 <script src="src/app.js"></script>
 </body>
 </html>

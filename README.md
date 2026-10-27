@@ -1,104 +1,83 @@
-# OMNIDEX — a comic-book interactive website
+# OMNIVERSE — Alien Archive
 
-A single-page, framework-free site built like a comic book: five original alien transformation
-forms, a slap-to-transform dial, halftone wipes, speed lines, an issue reader, a Web-Audio SFX lab,
-and a live panel builder that renders (and downloads) a real comic panel on `<canvas>`.
+A comic-book website built around an original universe: five alien forms, a CSS-3D alien watch,
+a hologram transformation sequence, panel-by-panel issues, and a turn-based battle arena against
+a chronomancer who cheats.
 
-No build step. No dependencies. Drop it on GitHub Pages and it runs.
+Pure **HTML + CSS + JS**. No frameworks, no build step, no audio files, no third-party requests.
 
 ---
 
-## Put it on GitHub Pages (2 minutes)
+## Deploy to GitHub Pages
 
-1. Unzip this folder anywhere.
-2. Create a new repo on GitHub — e.g. `omnidex` — **public**.
-3. Upload the **contents** of the folder (not the folder itself) so that `index.html` sits at the repo root:
+1. Unzip. Create a **public** repo (e.g. `omniverse`).
+2. Upload the **contents** so `index.html` is at the repo root:
    ```
    index.html
-   src/
-     app.css
-     app.js
-   assets/
-     Bangers.woff2  ArchivoBlack.woff2  Mono400.woff2  Mono700.woff2
-     alien-cinder.jpg  alien-volt.jpg  alien-tide.jpg  alien-quill.jpg
-     alien-null.jpg  alien-titan.jpg
-     hero-teen.jpg  panel-watch.jpg  panel-city.jpg
-     *.png   (oversized masters — safe to delete, ~11 MB)
+   .nojekyll
+   src/app.css   src/app.js
+   assets/*.jpg  assets/*.woff2
    ```
-4. Repo → **Settings → Pages → Build and deployment**
-   - Source: **Deploy from a branch**
-   - Branch: **main** · Folder: **/ (root)** → **Save**
-5. Wait ~30 seconds. Your site is live at `https://<your-username>.github.io/omnidex/`.
+3. **Settings → Pages → Deploy from a branch → main / (root) → Save**.
+4. Live at `https://<you>.github.io/omniverse/` in ~30s.
 
-> Prefer the command line?
-> ```bash
-> git init && git add . && git commit -m "Omnidex"
-> git branch -M main
-> git remote add origin https://github.com/<you>/omnidex.git
-> git push -u origin main
-> ```
-> Then enable Pages as above.
+CLI version:
+```bash
+git init && git add . && git commit -m "Omniverse"
+git branch -M main
+git remote add origin https://github.com/<you>/omniverse.git
+git push -u origin main
+```
 
-### A `.nojekyll` file is included
-It stops GitHub's Jekyll pipeline from touching `assets/` and `src/`. Leave it in.
+`.nojekyll` is included — keep it, or Pages may skip `assets/`.
 
 ---
 
 ## What's interactive
 
-| Where | What happens |
+| Section | What happens |
 |---|---|
-| **Hero dial** | Click it (or press **T**) → full transformation sequence: screen darkens, speed lines spin, rings pulse, the alien morphs in with a glitch pass, its name slams down, white flash, and **the whole site re-colours to that alien's palette**. |
-| **The Dex (#dex)** | Five specimens on a wheel. Click one → dossier loads with animated stat bars. Filter by *power / speed / stealth*. Press **GO** to transform into that form. |
-| **Comic pages (#pages)** | Staggered panel reveal on scroll, hover punch-in, SFX lettering. Click a panel → **reader** opens; ← → arrows flip panels, Esc closes, focus is trapped. |
-| **SFX lab (#sfx)** | Six buttons, all sounds synthesised live with the Web Audio API — **zero audio files**. The ♪ button in the HUD mutes everything. |
-| **Panel builder (#build)** | Type a caption, pick a specimen / speech effect / ink colour, reroll the angle, then **Download PNG**. Text is drawn onto a 1000 × 700 canvas with halftone dots, a caption box and a starburst SFX. |
-| **Chaos mode (✦)** | In the HUD — tilts every panel at once and turns the accent yellow. |
-| **Everything** | Custom crosshair + star cursors, printed halftone + paper grain overlays, scroll progress bar, toast messages. |
+| **Hero + watch** | The watch is real CSS 3D (preserve-3d, layered bezel / glass / hourglass, tilts to your pointer). Tap it → charge → transformation. `T` also works. |
+| **Transformation** | Six-stage sequence: floor grid boots up → DNA scan sweeps over a black silhouette → the form floods with colour bottom-up → slice-glitch pass → name slam → white-out. Then **the whole site re-inks to that alien's palette**. Esc skips. |
+| **Archive** | Five hexagonal specimens on a wheel. Click for the dossier (animated stat bars, powers), filter by role, **Transform** or **Send to battle**. |
+| **Issue 001** | Staggered panel reveals, hover punch-in, SFX lettering, and a reader with ← → flipping + Esc. |
+| **Battle arena** | Turn-based vs **Kronik** (130 HP). Three moves per form, each with its own sound. Under 34% HP he **stops time**, heals and steals your turn. K.O. ends it. |
+| **Sound lab** | Eight rebuilt effects, all synthesised: rasterised chirps, mechanical dial clicks, a filtered-noise warp sweep, impact with sub-bass thump and metal ring, glitch stutter, time-stop dive. |
+| **Panel forge** | Caption + specimen + SFX + ink → drawn live on `<canvas>` (halftone dots, starburst, caption box) → **Download PNG**. |
+| **Chaos mode ✦** | Tilts every panel and swaps the accent. |
 
-Keyboard: **T** transform · **Esc** skip/close · **← →** flip reader panels · **Tab** order is complete,
-focus rings are visible, and `prefers-reduced-motion` short-circuits every animation.
+Accessibility: skip link, visible focus rings, keyboard-complete controls, `aria-live` regions,
+`prefers-reduced-motion` short-circuits every animation.
 
 ---
 
-## Editing it
+## Editing
 
-**Copy / characters** — everything is in `src/app.js`:
-- `ALIENS` array at the top: name, role, image, accent colours, powers, stats, blurb.
-- `PANELS` array: the six comic pages (image, caption, SFX, column span, tilt).
-
-**Colours** — `src/app.css`, the `:root` block. `--accent` is overwritten per-alien by JS.
-
-**Artwork** — drop new images in `assets/`, then point `img`/`img:` fields at them.
-Portrait plates look best around **1400 × 768**·landscape or **768 × 1376**·vertical.
-
-**Sounds** — `src/app.js → Sound.play()`; each case is a few oscillators/noise bursts.
-Tweak frequencies or add a new `case` and wire it to a button.
-
-**Subscribe form** — currently a demo. Point `#subForm`'s submit handler at your provider
-(Buttondown, Mailchimp, Formspree…) in `src/app.js → misc()`.
+- **Characters** — `src/app.js` → `ALIENS` (name, role, image, accent colours, powers, stats, moves) and `VILLAIN`.
+- **Comic panels** — `src/app.js` → `PANELS`.
+- **Colours** — `src/app.css` `:root`. `--accent` / `--accent-deep` are swapped per alien by JS (the deep one is the darkened variant used on cream paper).
+- **Sound** — `src/app.js` → `Sound` module. Each effect is a few oscillators + filtered noise; add a `case` to `P` and wire it to a button.
+- **Art** — drop images into `assets/`, then point the `img` fields at them. Landscape ~1400×768 works best.
+- **Subscribe form** — demo only; point `#subForm` at your provider in `src/app.js → misc()`.
 
 ---
 
 ## Local preview
 
-Because the panel-builder export uses `canvas.toDataURL()`, `file://` will block the PNG download
-(tainted canvas). Serve it over http instead:
-
 ```bash
 python3 -m http.server 8000
-# then open http://localhost:8000
+# open http://localhost:8000
 ```
 
-Everything else works fine opened directly.
+The PNG export uses `canvas.toDataURL()`, which browsers block on `file://`. Everything else runs fine
+opened directly, but use a local server (or Pages) to test the download.
 
 ---
 
-## Credits & notes
+## Credits
 
-- All artwork is **original and generated for this project** — no stock, no scraped assets,
-  no licensed characters. The "watch + aliens" vibe is a genre homage, not a copy of any show's designs.
-- Typefaces: **Bangers**, **Archivo Black**, **Space Mono** — all SIL Open Font License, self-hosted in `assets/`.
-- Zero trackers, zero third-party requests at runtime.
+All artwork is original and generated for this project — no stock, no scraped assets, and no
+licensed characters. It's a genre homage, not a reproduction of any existing show's designs.
+Fonts: **Bangers**, **Archivo Black**, **Space Mono** (all SIL Open Font License, self-hosted).
 
-MIT — do what you like with the code.
+MIT — take it apart, ship it, make it yours.
