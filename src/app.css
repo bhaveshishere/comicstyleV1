@@ -8,18 +8,22 @@
 @font-face{font-family:'Mono';src:url(../assets/Mono700.woff2) format('woff2');font-weight:700;font-display:swap}
 
 :root{
+  /* palette taken from the model sheets: hoodie #4CAE4C, Omnitrix #00FF00,
+     skin #F7DBC7, hair #7C4F32 */
   --ink:#08090C;
   --ink-2:#11131A;
   --paper:#EFE7D6;
   --paper-2:#DCD0B4;
-  --green:#7DFF2F;
-  --green-dk:#2E7A0A;
+  --green:#00FF00;          /* Omnitrix green, from the sheet — UI/fills only */
+  --green-ink:#2FBF2F;      /* readable green for large display type */
+  --green-soft:#4CAE4C;     /* hoodie green, from the sheet */
+  --green-dk:#237A23;
   --yellow:#FFD400;
-  --red:#FF3B2F;
+  --red:#C41E2A;
   --steel:#3A4048;
-  --accent:#7DFF2F;
-  --accent-2:#2BE37A;
-  --accent-deep:#3E7D0B;
+  --accent:#00FF00;
+  --accent-2:#4CAE4C;
+  --accent-deep:#1E6B1E;
   --dia:'Bangers',Impact,sans-serif;
   --head:'Archivo Black',Impact,sans-serif;
   --mono:'Mono',ui-monospace,monospace;
@@ -100,11 +104,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   font-size:clamp(52px,9.6vw,140px);text-transform:uppercase;
   text-shadow:3px 3px 0 var(--ink),6px 6px 0 var(--accent),10px 10px 0 var(--ink);
   transform:rotate(-1.4deg)}
-.title em{font-style:normal;color:var(--green)}
+.title em{font-style:normal;color:var(--green-ink)}
 .title .ln{display:block}
 .hero__sub{font-family:var(--head);font-size:clamp(14px,1.7vw,20px);line-height:1.2;
   margin:16px 0 0;max-width:27ch;text-shadow:2px 2px 0 var(--ink)}
-.hero__sub u{text-decoration:none;color:var(--green);background:var(--ink);padding:0 5px}
+.hero__sub u{text-decoration:none;color:var(--green-ink);background:var(--ink);padding:0 5px}
 .hero__cta{display:flex;flex-wrap:wrap;gap:11px;margin-top:24px}
 
 .btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:9px;
@@ -148,10 +152,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     repeating-conic-gradient(from 0deg,rgba(255,255,255,.22) 0deg 1.6deg,transparent 1.6deg 11deg),
     radial-gradient(circle at 34% 26%,rgba(255,255,255,.65),transparent 46%);
   opacity:.55;animation:spin 24s linear infinite}
-.watch__hourglass{position:absolute;inset:0;display:grid;place-items:center;transform:translateZ(34px);
+.watch__sigil{position:absolute;inset:0;display:grid;place-items:center;transform:translateZ(34px);
   filter:drop-shadow(0 2px 0 rgba(0,0,0,.35))}
-.watch__hourglass svg{width:46%;height:46%}
-.watch__hourglass path{fill:#0E2A03}
+.watch__sigil svg{width:44%;height:44%}
+.watch__sigil path{fill:#0E2A03}
 .watch__dial{position:absolute;left:50%;top:8%;width:11%;aspect-ratio:1;transform:translateX(-50%) translateZ(14px);
   border-radius:24%;background:linear-gradient(160deg,#6b7683,#333a43);border:2px solid #0b0d10;
   box-shadow:0 0 0 2px #7b8694 inset}
@@ -528,3 +532,9 @@ h2.h em{font-style:normal;color:var(--accent);text-shadow:2px 2px 0 var(--ink)}
   .log{max-height:150px;font-size:10.5px}
   .combo{top:11%;font-size:clamp(26px,8vw,44px)}
 }
+
+/* sticker base needs an explicit surface or it renders as a blank box */
+.sticker{background:var(--paper);color:var(--ink)}
+.st-a{background:var(--yellow)}
+.st-b{background:var(--red);color:#fff}
+.st-c{background:var(--paper)}

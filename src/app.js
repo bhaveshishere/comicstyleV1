@@ -63,7 +63,7 @@ const ALIENS = [
   moves:[{n:'Phase Strike',d:[12,18],s:'void'},{n:'Shadow Slip',d:[8,14],s:'void',heal:7},{n:'Void Grip',d:[20,26],s:'impact'}] }
 ];
 
-const VILLAIN = { name:'Kronik', hp:130, moves:[
+const VILLAIN = { name:'Kronikk', hp:130, moves:[
   {n:'Time Slash',d:[11,16],s:'clank'},
   {n:'Gear Barrage',d:[9,14],s:'impact'},
   {n:'Chrono Beam',d:[17,23],s:'warp'}
@@ -72,16 +72,16 @@ const VILLAIN = { name:'Kronik', hp:130, moves:[
 const PANELS = [
   {img:'assets/hero.jpg',        cap:'It was already warm when he found it.',      sfx:'KLIK!',  span:7, rot:-0.5, desc:'A crater behind the school, a watch that had no business being there, and a boy who should have walked away.'},
   {img:'assets/alien-cinder.jpg',cap:'First pull. First mistake.',                  sfx:'THOOM!', span:5, rot:0.7,  desc:'The dial snapped down and the street learned what a magma golem weighs.'},
-  {img:'assets/villain-kronik.jpg',cap:'Then the air got cold.',                    sfx:'KRSSH!', span:5, rot:-0.6, desc:'Kronik arrived four seconds before he left, which is a thing he does to make a point.'},
+  {img:'assets/villain-kronik.jpg',cap:'Then the air got cold.',                    sfx:'KRSSH!', span:5, rot:-0.6, desc:'Kronikk arrived four seconds before he left, which is a thing he does to make a point.'},
   {img:'assets/alien-volt.jpg',  cap:'Thirteen blocks. Four seconds.',              sfx:'FWOOOSH',span:7, rot:0.4,  desc:'The traffic cameras caught a smear of cyan and a very confused pigeon.'},
   {img:'assets/battle-vs.jpg',   cap:'Fire met clockwork in the middle of the road.', sfx:'KRAKK!', span:7, rot:-0.4, desc:'The impact cracked every window in a two-block radius. The city would later call it an earthquake.'},
-  {img:'assets/alien-null.jpg',  cap:'Some doors you stop bothering to open.',      sfx:'SHHHK!', span:5, rot:0.6,  desc:'Null went through the vault wall, took back the hour Kronik had stolen, and left no prints.'}
+  {img:'assets/alien-null.jpg',  cap:'Some doors you stop bothering to open.',      sfx:'SHHHK!', span:5, rot:0.6,  desc:'Null went through the vault wall, took back the hour Kronikk had stolen, and left no prints.'}
 ];
 
 /* ------------------------------------------------------------
    2 · AUDIO — rebuilt from scratch, layered, no files
    ------------------------------------------------------------ */
-const Sound = (() => {
+const SynthSound = (() => {
   let ctx, master, verb, on = true, unlocked = false;
   function init(){
     if(ctx) return ctx;
@@ -183,6 +183,72 @@ const Sound = (() => {
     unlock(){ unlocked = true; if(init() && ctx.state==='suspended') ctx.resume(); }
   };
 })();
+
+/* ============================================================
+   SOUND BANK  ·  recorded cues
+   Composite cues built from Kenney CC0 source libraries
+   (Sci-Fi Sounds, Interface Sounds, Digital Audio) — layered,
+   pitched, filtered and loudness-matched offline. All CC0 1.0,
+   so the files may be redistributed with this project.
+   If the files fail to load (e.g. opened straight from disk on
+   some browsers) every call falls back to the synthesised bank.
+   ============================================================ */
+const Sound = (() => {
+  const BASE = 'assets/audio/';
+  const NAMES = ['chirp','crank','warp','charge','impact','clank','glitch','timefreeze',
+                 'flame','zap','water','crystal','void','tick','ok','fail','ko'];
+  let ctx, master, on = true, ready = false, buffers = {}, failed = false, loading = null;
+
+  function init(){
+    if(ctx) return ctx;
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC) return null;
+    ctx = new AC();
+    master = ctx.createGain(); master.gain.value = .9; master.connect(ctx.destination);
+    return ctx;
+  }
+
+  function load(){
+    if(loading) return loading;
+    if(!init()) { failed = true; return Promise.resolve(); }
+    loading = Promise.all(NAMES.map(n => fetch(BASE + n + '.mp3')
+      .then(r => { if(!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+      .then(b => new Promise((res, rej) => ctx.decodeAudioData(b, res, rej)))
+      .then(buf => { buffers[n] = buf; })
+      .catch(() => {})
+    )).then(() => { ready = Object.keys(buffers).length > 0; failed = !ready; });
+    return loading;
+  }
+
+  function play(name){
+    if(!on) return;
+    if(!init()) return;
+    if(ctx.state === 'suspended') ctx.resume();
+    const buf = buffers[name];
+    if(buf){
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      // tiny per-play variation so repeats don't sound machine-gunned
+      src.playbackRate.value = 1 + (Math.random() - 0.5) * 0.05;
+      const g = ctx.createGain(); g.gain.value = 1;
+      src.connect(g); g.connect(master);
+      src.start();
+      return;
+    }
+    if(!ready && !failed) load();          // first call boots the bank
+    SynthSound.play(name);                 // immediate fallback / pre-load response
+  }
+
+  return {
+    play,
+    load,
+    toggle(){ on = !on; if(on) play('tick'); return on; },
+    get enabled(){ return on; },
+    get usingFiles(){ return ready; },
+    unlock(){ if(init() && ctx.state === 'suspended') ctx.resume(); }
+  };
+})();
+
 const sfx = n => Sound.play(n);
 
 /* ------------------------------------------------------------
@@ -568,16 +634,16 @@ const Battle = (() => {
     await wait(420);
     if(villainHP <= 0) return win();
 
-    /* Kronik cheats when cornered */
+    /* Kronikk cheats when cornered */
     if(villainHP < VILLAIN.hp * .34 && !frozen){
       frozen = true;
       sfx('timefreeze');
-      log(`<span class="vill">Kronik</span> stops time. Everything goes quiet.`, 'vill');
+      log(`<span class="vill">Kronikk</span> stops time. Everything goes quiet.`, 'vill');
       showCombo('TIME STOP!');
       await wait(700);
       villainHP = Math.min(VILLAIN.hp, villainHP + 14);
       paint();
-      log(`<span class="vill">Kronik</span> rewound his own plating (+14).`, 'vill');
+      log(`<span class="vill">Kronikk</span> rewound his own plating (+14).`, 'vill');
       await wait(500);
       log(`Your turn is gone.`, 'vill');
       busy = false;
@@ -592,7 +658,7 @@ const Battle = (() => {
     sfx(mv.s);
     heroHP = Math.max(0, heroHP - edmg);
     hit('hero', edmg);
-    log(`<span class="vill">Kronik</span> used <b>${mv.n}</b> — you take <b>${edmg}</b>.`, 'vill');
+    log(`<span class="vill">Kronikk</span> used <b>${mv.n}</b> — you take <b>${edmg}</b>.`, 'vill');
     paint();
     await wait(360);
     if(heroHP <= 0) return lose();
@@ -601,14 +667,14 @@ const Battle = (() => {
 
   function win(){
     over = true; busy = false;
-    sfx('ok');
+    sfx('ko');
     log(`<b>KRONIK DOWN.</b> The hour he stole runs backwards into the street.`, 'hero');
     showCombo('K.O.!');
     [...el('moves').children].forEach(b => b.disabled = true);
   }
   function lose(){
     over = true; busy = false;
-    sfx('fail');
+    sfx('ko');
     log(`<span class="vill">You're out.</span> Hit restart — the watch owes you one.`, 'vill');
     showCombo('KO…');
     [...el('moves').children].forEach(b => b.disabled = true);
@@ -618,7 +684,7 @@ const Battle = (() => {
     heroHP = 100; villainHP = VILLAIN.hp; busy = false; over = false; frozen = false; combo = 0;
     el('battleLog').innerHTML = '';
     paint(); moves();
-    log(`<b>${form.name}</b> steps into the street. <span class="vill">Kronik</span> is already four seconds ahead.`, 'hero');
+    log(`<b>${form.name}</b> steps into the street. <span class="vill">Kronikk</span> is already four seconds ahead.`, 'hero');
   }
 
   el('resetBattle').addEventListener('click', ()=>{ sfx('tick'); reset(); toast('Fight restarted'); });
@@ -635,6 +701,8 @@ $$('.sfxbtn').forEach(b => b.addEventListener('click', ()=>{
   sfx(b.dataset.sfx);
   b.classList.remove('on'); void b.offsetWidth; b.classList.add('on');
 }));
+/* reveal the recorded bank once decoded */
+Sound.load().then(()=>{ if(Sound.usingFiles) document.documentElement.dataset.audio = 'recorded'; });
 
 /* ------------------------------------------------------------
    9 · PANEL FORGE (canvas)
@@ -829,7 +897,8 @@ $$('.sfxbtn').forEach(b => b.addEventListener('click', ()=>{
     f.reset(); toast('Subscribed (demo)');
   });
 
-  ['pointerdown','keydown'].forEach(ev => addEventListener(ev, ()=> Sound.unlock(), {once:true}));
+  ['pointerdown','keydown','touchstart'].forEach(ev =>
+    addEventListener(ev, ()=> { Sound.unlock(); Sound.load(); }, {once:true}));
 })();
 
 window.Omniverse = { Warp, Dex, Battle, Sound, ALIENS };
